@@ -67,12 +67,12 @@
         </div>
     </main>
 
-    <section class="name-quizz-screen page hidden">
+    <section class="name-screen page hidden">
         <h2>Comece pelo começo</h2>
 
         <div class="conteiner-inputs">
             <input placeholder="Título do seu quizz" type="text">
-            <input placeholder="URL da imagem do seu quizz" type="text">
+            <input placeholder="URL da imagem do seu quizz" type="text" class="URL-photo">
             <input placeholder="Quantidade de perguntas do quizz" type="text" class="number-of-questions">
             <input placeholder="Quantidade de níveis" type="text" class="number-of-scores">
         </div>
@@ -80,14 +80,14 @@
         <button class="button-next" onclick="showCreateQuestionsScreen()">Prosseguir para criar perguntas</button>
     </section>
 
-    <section class="create-question-screen page hidden">
+    <section class="question-screen page hidden">
         <h2>Crie suas perguntas</h2>
         <ul></ul>
 
         <button class="button-next" onclick="showCreateScoreScreen()">Prosseguir para criar níveis</button>
     </section>
 
-    <section class="create-score-screen page hidden">
+    <section class="score-screen page hidden">
         <h2>Agora, decida os níveis</h2>
         <ul></ul>
 
@@ -96,7 +96,7 @@
 
     <section class="final-quizz-screen page hidden">
         <h2>Seu Quizz Está Pronto!</h2>
-        <img class="quizz-final-img">
+        <img class="final-quizz-img">
         <button class="button-next">Acessar Quizz</button>
         <button class="button-return" onclick="returnHomePage();">Voltar pra home</button>
     </section>

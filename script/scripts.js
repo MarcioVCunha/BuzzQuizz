@@ -1,7 +1,7 @@
 const mainScreen = document.querySelector('main');
-const nameScreen = document.querySelector('.name-quizz-screen');
-const questionScreen = document.querySelector('.create-question-screen');
-const scoreScreen = document.querySelector('.create-score-screen');
+const nameScreen = document.querySelector('.name-screen');
+const questionScreen = document.querySelector('.question-screen');
+const scoreScreen = document.querySelector('.score-screen');
 const finalScreen = document.querySelector('.final-quizz-screen');
 
 function showCreateQuizzScreen(){
@@ -25,7 +25,7 @@ function createQuestionsBoxes(){
         <li>
             <div class="conteiner-questions">
                 <p>Pergunta ${i+1}</p>
-                <ion-icon name="create-outline"></ion-icon>
+                <img src="assets/Vector.svg">
             </div>
         </li>`;
     }
@@ -48,7 +48,7 @@ function createScoreBoxes(){
         <li>
             <div class="conteiner-questions">
                 <p>Nível ${i+1}</p>
-                <ion-icon name="create-outline"></ion-icon>
+                <img src="assets/Vector.svg">
             </div>
         </li>`;
     }
@@ -62,7 +62,7 @@ function showFinalScreen(){
 }
 
 function createFinalScreen(){
-    
+    finalScreen.querySelector('img').setAttribute('src', nameScreen.querySelector('.URL-photo').value);
 }
 
 function returnHomePage(){
