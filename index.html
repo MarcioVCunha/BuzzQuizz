@@ -68,22 +68,37 @@
     </main>
 
     <section class="name-quizz-screen page hidden">
-        <p>Comece pelo começo</p>
+        <h2>Comece pelo começo</h2>
 
         <div class="conteiner-inputs">
             <input placeholder="Título do seu quizz" type="text">
             <input placeholder="URL da imagem do seu quizz" type="text">
             <input placeholder="Quantidade de perguntas do quizz" type="text" class="number-of-questions">
-            <input placeholder="Quantidade de níveis" type="text">
+            <input placeholder="Quantidade de níveis" type="text" class="number-of-scores">
         </div>
 
         <button class="button-next" onclick="showCreateQuestionsScreen()">Prosseguir para criar perguntas</button>
     </section>
 
-    <section class="create-question-screen page hidden" onclick="">
-        <p class="title-create-questions-screen">Crie suas perguntas</p>
-        <ul>
-        </ul>
+    <section class="create-question-screen page hidden">
+        <h2>Crie suas perguntas</h2>
+        <ul></ul>
+
+        <button class="button-next" onclick="showCreateScoreScreen()">Prosseguir para criar níveis</button>
+    </section>
+
+    <section class="create-score-screen page hidden">
+        <h2>Agora, decida os níveis</h2>
+        <ul></ul>
+
+        <button class="button-next" onclick="showFinalScreen();">Finalizar Quizz</button>
+    </section>
+
+    <section class="final-quizz-screen page hidden">
+        <h2>Seu Quizz Está Pronto!</h2>
+        <img class="quizz-final-img">
+        <button class="button-next">Acessar Quizz</button>
+        <button class="button-return" onclick="returnHomePage();">Voltar pra home</button>
     </section>
     
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
