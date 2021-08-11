@@ -15,14 +15,14 @@
     <header>
         BuzzQuizz
     </header>
-    <main>
+
+    <main class="page">
         <div class="created">
             <div class="add-quiz">
                 <p>Você não criou nenhum quizz ainda :(</p>
-                <button class="add">Criar Quizz</button>
+                <button class="add" onclick="showCreateQuizzScreen()">Criar Quizz</button>
             </div>
         </div>
-
 
         <!-- Parte diferente que faz a Tela 2
 
@@ -67,11 +67,24 @@
         </div>
     </main>
 
+    <section class="name-Quizz-Screen page hidden">
+        <p>Comece pelo começo</p>
 
+        <div class="conteiner-questions">
+            <input placeholder="Título do seu quizz" type="text">
+            <input placeholder="URL da imagem do seu quizz" type="text">
+            <input placeholder="Quantidade de perguntas do quizz" type="text">
+            <input placeholder="Quantidade de níveis" type="text">
+        </div>
+
+        <button class="button-next">Prosseguir para criar perguntas</button>
+    </section>
 
    
     
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+
+    <script src="script/scripts.js"></script>
 
   </body>
 </html>
