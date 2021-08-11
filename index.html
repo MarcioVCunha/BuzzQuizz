@@ -67,20 +67,24 @@
         </div>
     </main>
 
-    <section class="name-Quizz-Screen page hidden">
+    <section class="name-quizz-screen page hidden">
         <p>Comece pelo começo</p>
 
-        <div class="conteiner-questions">
+        <div class="conteiner-inputs">
             <input placeholder="Título do seu quizz" type="text">
             <input placeholder="URL da imagem do seu quizz" type="text">
-            <input placeholder="Quantidade de perguntas do quizz" type="text">
+            <input placeholder="Quantidade de perguntas do quizz" type="text" class="number-of-questions">
             <input placeholder="Quantidade de níveis" type="text">
         </div>
 
-        <button class="button-next">Prosseguir para criar perguntas</button>
+        <button class="button-next" onclick="showCreateQuestionsScreen()">Prosseguir para criar perguntas</button>
     </section>
 
-   
+    <section class="create-question-screen page hidden" onclick="">
+        <p class="title-create-questions-screen">Crie suas perguntas</p>
+        <ul>
+        </ul>
+    </section>
     
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 
