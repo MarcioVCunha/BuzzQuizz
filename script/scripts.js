@@ -6,6 +6,8 @@ const finalScreen = document.querySelector('.final-quizz-screen');
 const URL_Servidor = "https://mock-api.bootcamp.respondeai.com.br/api/v3/buzzquizz/quizzes";
 const conteiner = document.querySelector(".conteiner-quiz");
 
+let numberOfQuestions;
+let numberOfScores;
 let quizz = [];
 
 function showCreateQuizzScreen() {
@@ -20,7 +22,7 @@ function showCreateQuestionsScreen() {
 }
 
 function createQuestionsBoxes() {
-    let numberOfQuestions = Number(nameScreen.querySelector('.number-of-questions').value);
+    numberOfQuestions = Number(nameScreen.querySelector('.number-of-questions').value);
     let respostasIncorretas = '';
 
 
@@ -29,9 +31,10 @@ function createQuestionsBoxes() {
     let i = 0;
     while(i < 3){
         respostasIncorretas += `
-            <input class="inputs-screens-creation" placeholder="Resposta incorreta ${i+1}">
-            <input class="inputs-screens-creation" placeholder="URL da imagem ${i+1}">
-        `
+            <div class="double-inputs">
+                <input class="inputs-screens-creation"  placeholder="Resposta incorreta ${i+1}">
+                <input class="inputs-screens-creation"  placeholder="URL da imagem ${i+1}">
+            </div>`
         i++;
     }
 
@@ -40,7 +43,7 @@ function createQuestionsBoxes() {
         <li class="question-creation-box">
             <div class="conteiner-questions">
                 <p class="paragraph-screens-creation">Pergunta ${i + 1}</p>
-                <img src="assets/Vector.svg" onclick="showInputs(this)">
+                <img src="assets/Vector.svg" onclick="showInputs(this, questionScreen, numberOfQuestions)">
             </div>
 
             <div class="questions-inputs hidden">
@@ -66,7 +69,7 @@ function showCreateScoreScreen() {
 }
 
 function createScoreBoxes() {
-    let numberOfScores = Number(nameScreen.querySelector('.number-of-scores').value);
+    numberOfScores = Number(nameScreen.querySelector('.number-of-scores').value);
 
     scoreScreen.querySelector('ul').innerHTML = '';
 
@@ -113,7 +116,16 @@ function renderQuizz(element) {
     }
 }
 
-function showInputs(element){
+function showInputs(element, thisScreen, numberOfThis){
+    let icons = thisScreen.querySelectorAll('img')
+    let questionBoxes = thisScreen.querySelectorAll('.questions-inputs');
+
+    for(let i = 0; i < numberOfThis; i++){
+        icons[i].classList.remove('hidden');
+        questionBoxes[i].classList.add('hidden');
+    }
+
+    element.parentNode.nextElementSibling.classList.remove('hidden');
     element.classList.add('hidden');
 }
 

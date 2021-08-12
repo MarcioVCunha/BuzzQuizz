@@ -146,7 +146,7 @@ h2 {
 .button-next {
     width: 25vw;
     height: 54px;
-    margin: 50px auto 50px auto;
+    margin: 50px auto 30px auto;
     background-color: rgb(236, 54, 45);
     border: none;
     border-radius: 15px;
@@ -174,6 +174,12 @@ h2 {
     margin: 10px 0;
 }
 
+.double-inputs {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
 .inputs-screens-creation {
     border: 1px solid #D1D1D1;
     border-radius: 5px;
@@ -199,7 +205,7 @@ h2 {
     background-color: transparent;
     border: none;
     font-size: 21px;
-    margin: 30px auto;
+    margin: 0 auto 30px auto;
     color: #818181;
     width: 25vw;
     height: 54px;
