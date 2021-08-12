@@ -21,15 +21,38 @@ function showCreateQuestionsScreen() {
 
 function createQuestionsBoxes() {
     let numberOfQuestions = Number(nameScreen.querySelector('.number-of-questions').value);
+    let respostasIncorretas = '';
+
 
     questionScreen.querySelector('ul').innerHTML = '';
 
-    for (let i = 0; i < numberOfQuestions; i++) {
+    let i = 0;
+    while(i < 3){
+        respostasIncorretas += `
+            <input class="inputs-screens-creation" placeholder="Resposta incorreta ${i+1}">
+            <input class="inputs-screens-creation" placeholder="URL da imagem ${i+1}">
+        `
+        i++;
+    }
+
+    for (i = 0; i < numberOfQuestions; i++) {
         questionScreen.querySelector('ul').innerHTML += `
-        <li>
+        <li class="question-creation-box">
             <div class="conteiner-questions">
-                <p>Pergunta ${i + 1}</p>
-                <img src="assets/Vector.svg">
+                <p class="paragraph-screens-creation">Pergunta ${i + 1}</p>
+                <img src="assets/Vector.svg" onclick="showInputs(this)">
+            </div>
+
+            <div class="questions-inputs hidden">
+                <input class="inputs-screens-creation" placeholder="Texto da pergunta">
+                <input class="inputs-screens-creation" placeholder="Cor de fundo da pergunta">
+            
+                <p class="paragraph-screens-creation">Resposta correta</p>
+                <input class="inputs-screens-creation" placeholder="Texto da pergunta">
+                <input class="inputs-screens-creation" placeholder="Cor de fundo da pergunta">
+
+                <p class="paragraph-screens-creation">Respostas incorretas</p>
+                ${respostasIncorretas}
             </div>
         </li>`;
     }
@@ -79,15 +102,19 @@ function callQuizz() {
     promise.then(renderQuizz);
 }
 
-function renderQuizz(elemento) {
+function renderQuizz(element) {
     conteiner.innerHTML = "";
-    quizz = elemento.data;
+    quizz = element.data;
     for (let i = 0; i < quizz.length; i++) {
         conteiner.innerHTML += `
         <div class="quiz" style="background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.5) 60%, #000000 100%), url(${quizz[i].image});">
             <p>${quizz[i].title}</p>
         </div>`;
     }
+}
+
+function showInputs(element){
+    element.classList.add('hidden');
 }
 
 callQuizz();
