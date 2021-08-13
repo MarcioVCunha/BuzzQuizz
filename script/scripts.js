@@ -43,18 +43,8 @@ function showCreateQuestionsScreen() {
 function createQuestionsBoxes() {
     let respostasIncorretas = '';
     questionScreen.querySelector('ul').innerHTML = '';
-
-    let i = 0;
-    while(i < 3){
-        respostasIncorretas += `
-            <div class="double-inputs">
-                <input class="inputs-screens-creation"  placeholder="Resposta incorreta ${i+1}">
-                <input class="inputs-screens-creation"  placeholder="URL da imagem ${i+1}">
-            </div>`
-        i++;
-    }
-
-    for (i = 0; i < numberOfQuestions; i++) {
+    
+    for (let i = 0; i < numberOfQuestions; i++) {
         questionScreen.querySelector('ul').innerHTML += `
         <li class="question-creation-box">
             <div class="conteiner-questions">
@@ -67,24 +57,52 @@ function createQuestionsBoxes() {
                 <input class="color-question inputs-screens-creation" placeholder="Cor de fundo da pergunta">
             
                 <p class="paragraph-screens-creation">Resposta correta</p>
-                <input class="inputs-screens-creation" placeholder="Resposta correta">
+                <input class="answer-question-${i} inputs-screens-creation" placeholder="Resposta correta">
                 <input class="inputs-screens-creation" placeholder="URL da imagem">
 
                 <p class="paragraph-screens-creation">Respostas incorretas</p>
-                ${respostasIncorretas}
+
+                <div class="double-inputs">
+                    <input class="answer-question-${i}   inputs-screens-creation"      placeholder="Resposta incorreta 1">
+                    <input class="inputs-screens-creation"      placeholder="URL da imagem 1">
+                </div>
+
+                <div class="double-inputs">
+                    <input class="answer-question-${i}   inputs-screens-creation"      placeholder="Resposta incorreta 2">
+                    <input class="inputs-screens-creation"      placeholder="URL da imagem 2">
+                </div>
+
+                <div class="double-inputs">
+                    <input class="answer-question-${i}   inputs-screens-creation"      placeholder="Resposta incorreta 3">
+                    <input class="inputs-screens-creation"      placeholder="URL da imagem 3">
+                </div>
             </div>
         </li>`;
 
-        myQuizz.questions.push({
-            title: '', 
-            color: '', 
-            answears: ''
-        });
+        createPostObject(i);
     }
 }
 
+function createPostObject(i){
+    let isTrue = false;
+
+    if(i === 0){
+        isTrue = true;
+    }
+
+    myQuizz.questions.push({
+        title: '', 
+        color: '', 
+        answers: {
+            text: '',
+            image: '',
+            isCorrectAnswer: isTrue
+        }
+    });
+}
+
 function showCreateScoreScreen() {
-    if(isTrueStrings(numberOfQuestions) && isTrueColor(numberOfQuestions)){
+    if(isTrueStrings(numberOfQuestions) && isTrueColor(numberOfQuestions) && isTextBoxesEmpty(numberOfQuestions)){
         questionScreen.classList.toggle('hidden');
         scoreScreen.classList.toggle('hidden');
 
@@ -143,6 +161,20 @@ function isTrueUrl(URL){
     const rule = /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/
 
     return rule.test(URL)
+}
+
+function isTextBoxesEmpty(numberOfThis){
+    for(let i=0; i<numberOfThis; i++){
+        let allTextBoxes = questionScreen.querySelectorAll(`.answer-question-${i}`);
+
+        for(let j=0; j<2; j++){
+            if(allTextBoxes[j].value === ''){
+                return false;
+            }
+        }
+    }
+
+    return true
 }
 
 function createScoreBoxes() {
