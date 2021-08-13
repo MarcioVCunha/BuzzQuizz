@@ -17,8 +17,9 @@ function showCreateQuizzScreen() {
 
 function showCreateQuestionsScreen() {
     nameScreen.classList.toggle('hidden');
-    createQuestionsBoxes();
     questionScreen.classList.toggle('hidden');
+
+    createQuestionsBoxes();
 }
 
 function createQuestionsBoxes() {
@@ -99,7 +100,12 @@ function showFinalScreen() {
 }
 
 function createFinalScreen() {
-    finalScreen.querySelector('img').setAttribute('src', nameScreen.querySelector('.URL-photo').value);
+    finalScreen.innerHTML += `
+    <div class="final-image" style="background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.5) 60%, #000000 100%), url(${nameScreen.querySelector('.my-quizz-URL-photo').value});">
+        <p>${nameScreen.querySelector('.my-quizz-tittle').value}</p>
+    </div>
+    <button class="button-next">Acessar Quizz</button>
+    <button class="button-return" onclick="returnHomePage();">Voltar pra home</button>`
 }
 
 function returnHomePage() {

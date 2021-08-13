@@ -195,11 +195,25 @@ h2 {
     flex-direction: column;
 }
 
-.final-quizz-img {
+.final-image {    
     width: 500px;
+    height: 270px;
     margin: 0 auto;
     border-radius: 5px;
+    background-color: black;
+    background-size: 100% 100% !important;
+    position: relative
 }
+
+.final-image > p {
+    position: absolute;
+    bottom: 25px;
+    left: 30px;
+    font-size: 23px;
+    color: #FFFFFF;
+    margin-right: 30px;
+}
+
 
 .button-return {
     background-color: transparent;
