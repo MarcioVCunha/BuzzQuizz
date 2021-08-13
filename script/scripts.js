@@ -109,10 +109,17 @@ function renderQuizz(element) {
     conteiner.innerHTML = "";
     quizz = element.data;
     for (let i = 0; i < quizz.length; i++) {
-        conteiner.innerHTML += `
+        if (i % 3 == 2) {
+            conteiner.innerHTML += `
+        <div class="quiz no-margin-right" style="background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.5) 60%, #000000 100%), url(${quizz[i].image});">
+            <p>${quizz[i].title}</p>
+        </div>`;
+        } else {
+            conteiner.innerHTML += `
         <div class="quiz" style="background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.5) 60%, #000000 100%), url(${quizz[i].image});">
             <p>${quizz[i].title}</p>
         </div>`;
+        }
     }
 }
 
