@@ -100,7 +100,7 @@ function showFinalScreen() {
 }
 
 function createFinalScreen() {
-    finalScreen.innerHTML += `
+    finalScreen.innerHTML = `
     <div class="final-image" style="background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.5) 60%, #000000 100%), url(${nameScreen.querySelector('.my-quizz-URL-photo').value});">
         <p>${nameScreen.querySelector('.my-quizz-tittle').value}</p>
     </div>
