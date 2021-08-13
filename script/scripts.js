@@ -1,3 +1,12 @@
+const URL_POST = 'https://mock-api.bootcamp.respondeai.com.br/api/v3/buzzquizz/quizzes'
+
+let myQuizz = {
+	title: "",
+	image: "",
+	questions: [],
+	levels: []
+}
+
 const mainScreen = document.querySelector('main');
 const nameScreen = document.querySelector('.name-screen');
 const questionScreen = document.querySelector('.question-screen');
@@ -16,17 +25,23 @@ function showCreateQuizzScreen() {
 }
 
 function showCreateQuestionsScreen() {
-    nameScreen.classList.toggle('hidden');
-    questionScreen.classList.toggle('hidden');
+    myQuizz.title = nameScreen.querySelector('.my-quizz-title').value;
+    myQuizz.image = nameScreen.querySelector('.my-quizz-URL-photo').value;
+    numberOfQuestions = Number(nameScreen.querySelector('.number-of-questions').value);
+    numberOfScores = Number(nameScreen.querySelector('.number-of-scores').value);
 
-    createQuestionsBoxes();
+    if((myQuizz.title.length >= 20 && myQuizz.title.length <= 65) && isTrueUrl(myQuizz.image) && numberOfQuestions >= 3 && numberOfScores >= 2){
+        nameScreen.classList.toggle('hidden');
+        questionScreen.classList.toggle('hidden');
+
+        createQuestionsBoxes();
+    } else {
+        alert('Favor preencher os campos corretamente.')
+    }
 }
 
 function createQuestionsBoxes() {
-    numberOfQuestions = Number(nameScreen.querySelector('.number-of-questions').value);
     let respostasIncorretas = '';
-
-
     questionScreen.querySelector('ul').innerHTML = '';
 
     let i = 0;
@@ -48,8 +63,8 @@ function createQuestionsBoxes() {
             </div>
 
             <div class="questions-inputs hidden">
-                <input class="inputs-screens-creation" placeholder="Texto da pergunta">
-                <input class="inputs-screens-creation" placeholder="Cor de fundo da pergunta">
+                <input class="input-title-text inputs-screens-creation" placeholder="Texto da pergunta">
+                <input class="color-question inputs-screens-creation" placeholder="Cor de fundo da pergunta">
             
                 <p class="paragraph-screens-creation">Resposta correta</p>
                 <input class="inputs-screens-creation" placeholder="Resposta correta">
@@ -59,19 +74,78 @@ function createQuestionsBoxes() {
                 ${respostasIncorretas}
             </div>
         </li>`;
+
+        myQuizz.questions.push({
+            title: '', 
+            color: '', 
+            answears: ''
+        });
     }
 }
 
 function showCreateScoreScreen() {
-    questionScreen.classList.toggle('hidden');
-    scoreScreen.classList.toggle('hidden');
+    if(isTrueStrings(numberOfQuestions) && isTrueColor(numberOfQuestions)){
+        questionScreen.classList.toggle('hidden');
+        scoreScreen.classList.toggle('hidden');
 
-    createScoreBoxes();
+        createScoreBoxes();
+    } else {
+        alert('Favor preencher os campos corretamente.')
+    }
+}
+
+function isTrueStrings(numberOfThis){
+    let allTexts = questionScreen.querySelectorAll('.input-title-text');
+    let j = 0;
+
+    for(let i = 0; i < numberOfThis; i ++){
+        myQuizz.questions[i].title = allTexts[i].value;
+
+        if(myQuizz.questions[i].title.length >= 20){
+            j++;
+        }
+    }
+
+    if(j === numberOfThis){
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function isTrueColor(numberOfThis){
+    let allColorText = questionScreen.querySelectorAll('.color-question');
+    
+    let isTrue = 0;
+    for(let i = 0; i < numberOfThis; i++){
+        let leters = allColorText[i].value.slice(1);
+
+        let j = 0;
+        for(let k = 0; k < leters.length; k++){
+            if((leters.charCodeAt(k) >= 48 && leters.charCodeAt(k) <= 57) || (leters.charCodeAt(k) >= 65 && leters.charCodeAt(k) <= 90) || (leters.charCodeAt(k) >= 97 && leters.charCodeAt(k) <= 122)){
+                j++;
+            }
+        }
+
+        if(allColorText[i].value.charAt(0) === '#' && j === 6){
+            isTrue++;
+        }
+    }
+
+    if(isTrue === numberOfThis){
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function isTrueUrl(URL){
+    const rule = /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/
+
+    return rule.test(URL)
 }
 
 function createScoreBoxes() {
-    numberOfScores = Number(nameScreen.querySelector('.number-of-scores').value);
-
     scoreScreen.querySelector('ul').innerHTML = '';
 
     for (let i = 0; i < numberOfScores; i++) {
@@ -101,8 +175,8 @@ function showFinalScreen() {
 
 function createFinalScreen() {
     finalScreen.innerHTML = `
-    <div class="final-image" style="background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.5) 60%, #000000 100%), url(${nameScreen.querySelector('.my-quizz-URL-photo').value});">
-        <p>${nameScreen.querySelector('.my-quizz-tittle').value}</p>
+    <div class="final-image" style="background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.5) 60%, #000000 100%), url(${myQuizz.image});">
+        <p>${myQuizz.title}</p>
     </div>
     <button class="button-next">Acessar Quizz</button>
     <button class="button-return" onclick="returnHomePage();">Voltar pra home</button>`
