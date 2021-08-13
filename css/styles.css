@@ -28,6 +28,7 @@ header {
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
+.open-quiz,
 .page {
     margin-top: 146px;
     width: 1051px;
@@ -105,17 +106,21 @@ header {
     width: 100%;
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
 }
 
 .quiz {
     width: 340px;
     height: 181px;
     margin-top: 12px;
+    margin-right: 15px;
     border-radius: 5px;
     background-color: black;
     background-size: 100% 100% !important;
-    position: relative
+    position: relative;
+}
+
+.no-margin-right{
+    margin-right: 0px;
 }
 
 .quiz > p {
@@ -240,4 +245,67 @@ h2 {
 
 ::-ms-input-placeholder { /* Microsoft Edge */
   color: #BABABA;
+}
+
+.open-quiz {
+    width: 100%;
+    margin-top: 69px;
+    align-items: center;
+}
+
+.title-quizz {
+    width: 100%;
+    height: 227px;
+    text-align: center;
+    font-size: 30px;
+    color: white;
+    font-weight: bold;
+    background-color: red;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-size: 100% 100% !important;
+}
+
+.conteiner-question {
+    margin-top: 50px;
+    width: 759px;
+    padding: 28px 36px;
+    background-color: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.05);
+}
+
+.question {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #FFFFFF;
+    font-size: 23px;
+    font-weight: bold;
+    height: 138px;
+    background-color: #434CA0;
+}
+
+.conteiner-answer {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    
+}
+
+.answer {   
+}
+
+.answer > p {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.answer > img {
+    width: 329.9px;
+    height: 175.2px;
+    margin-bottom: 9px;
+    margin-top: 20px;
 }
