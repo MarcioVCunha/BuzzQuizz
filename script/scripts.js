@@ -51,8 +51,8 @@ function createQuestionsBoxes() {
                 <input class="inputs-screens-creation" placeholder="Cor de fundo da pergunta">
             
                 <p class="paragraph-screens-creation">Resposta correta</p>
-                <input class="inputs-screens-creation" placeholder="Texto da pergunta">
-                <input class="inputs-screens-creation" placeholder="Cor de fundo da pergunta">
+                <input class="inputs-screens-creation" placeholder="Resposta correta">
+                <input class="inputs-screens-creation" placeholder="URL da imagem">
 
                 <p class="paragraph-screens-creation">Respostas incorretas</p>
                 ${respostasIncorretas}
@@ -75,10 +75,17 @@ function createScoreBoxes() {
 
     for (let i = 0; i < numberOfScores; i++) {
         scoreScreen.querySelector('ul').innerHTML += `
-        <li>
+        <li class="question-creation-box">
             <div class="conteiner-questions">
-                <p>Nível ${i + 1}</p>
-                <img src="assets/Vector.svg">
+                <p class="paragraph-screens-creation">Nível ${i + 1}</p>
+                <img src="assets/Vector.svg" onclick="showInputs(this, scoreScreen, numberOfScores)">
+            </div>
+
+            <div class="questions-inputs hidden">
+                <input class="inputs-screens-creation" placeholder="Título do nível">
+                <input class="inputs-screens-creation" placeholder="% de acerto mínima">
+                <input class="inputs-screens-creation" placeholder="URL da imagem do nível">
+                <input class="inputs-screens-creation" placeholder="Descrição do nível">
             </div>
         </li>`;
     }
