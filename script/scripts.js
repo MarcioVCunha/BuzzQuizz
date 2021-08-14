@@ -210,15 +210,15 @@ function createScoreBoxes() {
             <div class="questions-inputs hidden">
                 <input class="score-title inputs-screens-creation" placeholder="Título do nível">
                 <input class="score-percent inputs-screens-creation" placeholder="% de acerto mínima">
-                <input class="inputs-screens-creation" placeholder="URL da imagem do nível">
-                <input class="inputs-screens-creation" placeholder="Descrição do nível">
+                <input class="URL-score-screen inputs-screens-creation" placeholder="URL da imagem do nível">
+                <input class="inputs-screens-creation score-description" placeholder="Descrição do nível">
             </div>
         </li>`;
     }
 }
 
 function showFinalScreen() {
-    if(isTitleOk() && isPercentOk()){
+    if(isTitleOk() && isPercentOk() && isAllURLScore() && isScoreDescriptionOk()){
         scoreScreen.classList.toggle('hidden');
         finalScreen.classList.toggle('hidden');
 
@@ -232,11 +232,10 @@ function isTitleOk(){
     let scoreTitles = scoreScreen.querySelectorAll('.score-title');
 
     for(let i = 0; i < scoreTitles.length; i++){
-        if(scoreTitles[i].value < 10){
+        if(scoreTitles[i].value.length < 10 || scoreTitles[i].value === ''){
             return false
         }
     }
-
     return true;
 }
 
@@ -248,7 +247,28 @@ function isPercentOk(){
             return false
         }
     }
+    return true;
+}
 
+function isAllURLScore(){
+    let scoreURL = scoreScreen.querySelectorAll('.URL-score-screen');
+
+    for(let i = 0; i < scoreURL.length; i++){
+        if(!isTrueUrl(scoreURL[i].value)){
+            return false
+        }
+    }
+    return true;
+}
+
+function isScoreDescriptionOk(){
+    let scoreDescriptions = scoreScreen.querySelectorAll('.score-description');
+
+    for(let i = 0; i < scoreDescriptions.length; i++){
+        if(scoreDescriptions[i].value.length < 30 || scoreDescriptions[i].value === ''){
+            return false
+        }
+    }
     return true;
 }
 
