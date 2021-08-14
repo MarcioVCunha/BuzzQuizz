@@ -209,7 +209,7 @@ function createScoreBoxes() {
 
             <div class="questions-inputs hidden">
                 <input class="score-title inputs-screens-creation" placeholder="Título do nível">
-                <input class="inputs-screens-creation" placeholder="% de acerto mínima">
+                <input class="score-percent inputs-screens-creation" placeholder="% de acerto mínima">
                 <input class="inputs-screens-creation" placeholder="URL da imagem do nível">
                 <input class="inputs-screens-creation" placeholder="Descrição do nível">
             </div>
@@ -218,7 +218,7 @@ function createScoreBoxes() {
 }
 
 function showFinalScreen() {
-    if(isTitleOk()){
+    if(isTitleOk() && isPercentOk()){
         scoreScreen.classList.toggle('hidden');
         finalScreen.classList.toggle('hidden');
 
@@ -233,6 +233,18 @@ function isTitleOk(){
 
     for(let i = 0; i < scoreTitles.length; i++){
         if(scoreTitles[i].value < 10){
+            return false
+        }
+    }
+
+    return true;
+}
+
+function isPercentOk(){
+    let percentScores = scoreScreen.querySelectorAll('.score-percent');
+
+    for(let i = 0; i < percentScores.length; i++){
+        if(percentScores[i].value < 0 || percentScores[i].value > 100 || percentScores[i].value === ''){
             return false
         }
     }
