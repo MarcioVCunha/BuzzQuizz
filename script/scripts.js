@@ -1,4 +1,5 @@
 const URL_POST = 'https://mock-api.bootcamp.respondeai.com.br/api/v3/buzzquizz/quizzes'
+const URL_Servidor = "https://mock-api.bootcamp.respondeai.com.br/api/v3/buzzquizz/quizzes";
 
 let myQuizz = {
 	title: "",
@@ -12,7 +13,6 @@ const nameScreen = document.querySelector('.name-screen');
 const questionScreen = document.querySelector('.question-screen');
 const scoreScreen = document.querySelector('.score-screen');
 const finalScreen = document.querySelector('.final-quizz-screen');
-const URL_Servidor = "https://mock-api.bootcamp.respondeai.com.br/api/v3/buzzquizz/quizzes";
 const conteiner = document.querySelector(".conteiner-quiz");
 
 let numberOfQuestions;
@@ -58,23 +58,23 @@ function createQuestionsBoxes() {
             
                 <p class="paragraph-screens-creation">Resposta correta</p>
                 <input class="answer-question-${i} inputs-screens-creation" placeholder="Resposta correta">
-                <input class="inputs-screens-creation" placeholder="URL da imagem">
+                <input class="question-photo inputs-screens-creation" placeholder="URL da imagem">
 
                 <p class="paragraph-screens-creation">Respostas incorretas</p>
 
                 <div class="double-inputs">
-                    <input class="answer-question-${i}   inputs-screens-creation"      placeholder="Resposta incorreta 1">
-                    <input class="inputs-screens-creation"      placeholder="URL da imagem 1">
+                    <input class="answer-question-${i} inputs-screens-creation" placeholder="Resposta incorreta 1">
+                    <input class="question-photo inputs-screens-creation" placeholder="URL da imagem 1">
                 </div>
 
                 <div class="double-inputs">
-                    <input class="answer-question-${i}   inputs-screens-creation"      placeholder="Resposta incorreta 2">
-                    <input class="inputs-screens-creation"      placeholder="URL da imagem 2">
+                    <input class="answer-question-${i} inputs-screens-creation" placeholder="Resposta incorreta 2">
+                    <input class="question-photo inputs-screens-creation" placeholder="URL da imagem 2">
                 </div>
 
                 <div class="double-inputs">
-                    <input class="answer-question-${i}   inputs-screens-creation"      placeholder="Resposta incorreta 3">
-                    <input class="inputs-screens-creation"      placeholder="URL da imagem 3">
+                    <input class="answer-question-${i} inputs-screens-creation" placeholder="Resposta incorreta 3">
+                    <input class="question-photo inputs-screens-creation" placeholder="URL da imagem 3">
                 </div>
             </div>
         </li>`;
@@ -102,7 +102,7 @@ function createPostObject(i){
 }
 
 function showCreateScoreScreen() {
-    if(isTrueStrings(numberOfQuestions) && isTrueColor(numberOfQuestions) && isTextBoxesEmpty(numberOfQuestions)){
+    if(isTrueStringsQuestion(numberOfQuestions) && isTrueColor(numberOfQuestions) && isTextBoxesEmpty(numberOfQuestions) && isAllURL()){
         questionScreen.classList.toggle('hidden');
         scoreScreen.classList.toggle('hidden');
 
@@ -112,7 +112,7 @@ function showCreateScoreScreen() {
     }
 }
 
-function isTrueStrings(numberOfThis){
+function isTrueStringsQuestion(numberOfThis){
     let allTexts = questionScreen.querySelectorAll('.input-title-text');
     let j = 0;
 
@@ -175,6 +175,25 @@ function isTextBoxesEmpty(numberOfThis){
     }
 
     return true
+}
+
+function isAllURL (){
+    const inputs = questionScreen.querySelectorAll('.question-photo');
+    const URLs = [];
+
+    for(let i = 0; i < inputs.length; i++){
+        if(inputs[i].value !== ''){
+            URLs.push(inputs[i].value);
+        }
+    }
+
+    for(let i = 0; i < URLs.length; i++){
+        if(!isTrueUrl(URLs[i])){
+            return false;
+        }
+    }
+
+    return true;
 }
 
 function createScoreBoxes() {
