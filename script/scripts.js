@@ -102,7 +102,7 @@ function createPostObject(i){
 }
 
 function showCreateScoreScreen() {
-    if(isTrueStringsQuestion(numberOfQuestions) && isTrueColor(numberOfQuestions) && isTextBoxesEmpty(numberOfQuestions) && isAllURL()){
+    if(/*isTrueStringsQuestion(numberOfQuestions) && isTrueColor(numberOfQuestions) && isTextBoxesEmpty(numberOfQuestions) && isAllURL()*/true){
         questionScreen.classList.toggle('hidden');
         scoreScreen.classList.toggle('hidden');
 
@@ -208,7 +208,7 @@ function createScoreBoxes() {
             </div>
 
             <div class="questions-inputs hidden">
-                <input class="inputs-screens-creation" placeholder="Título do nível">
+                <input class="score-title inputs-screens-creation" placeholder="Título do nível">
                 <input class="inputs-screens-creation" placeholder="% de acerto mínima">
                 <input class="inputs-screens-creation" placeholder="URL da imagem do nível">
                 <input class="inputs-screens-creation" placeholder="Descrição do nível">
@@ -218,10 +218,26 @@ function createScoreBoxes() {
 }
 
 function showFinalScreen() {
-    scoreScreen.classList.toggle('hidden');
-    finalScreen.classList.toggle('hidden');
+    if(isTitleOk()){
+        scoreScreen.classList.toggle('hidden');
+        finalScreen.classList.toggle('hidden');
 
-    createFinalScreen();
+        createFinalScreen();
+    } else {
+        alert('Favor preencher os campos corretamente.')
+    }
+}
+
+function isTitleOk(){
+    let scoreTitles = scoreScreen.querySelectorAll('.score-title');
+
+    for(let i = 0; i < scoreTitles.length; i++){
+        if(scoreTitles[i].value < 10){
+            return false
+        }
+    }
+
+    return true;
 }
 
 function createFinalScreen() {
