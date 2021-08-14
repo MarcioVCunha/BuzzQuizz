@@ -57,52 +57,42 @@ function createQuestionsBoxes() {
                 <input class="color-question inputs-screens-creation" placeholder="Cor de fundo da pergunta">
             
                 <p class="paragraph-screens-creation">Resposta correta</p>
-                <input class="answer-question-${i} inputs-screens-creation" placeholder="Resposta correta">
+                <input class="answer-question-${i} answer-question inputs-screens-creation" placeholder="Resposta correta">
                 <input class="question-photo inputs-screens-creation" placeholder="URL da imagem">
 
                 <p class="paragraph-screens-creation">Respostas incorretas</p>
 
                 <div class="double-inputs">
-                    <input class="answer-question-${i} inputs-screens-creation" placeholder="Resposta incorreta 1">
+                    <input class="answer-question-${i} answer-question inputs-screens-creation" placeholder="Resposta incorreta 1">
                     <input class="question-photo inputs-screens-creation" placeholder="URL da imagem 1">
                 </div>
 
                 <div class="double-inputs">
-                    <input class="answer-question-${i} inputs-screens-creation" placeholder="Resposta incorreta 2">
+                    <input class="answer-question-${i} answer-question inputs-screens-creation" placeholder="Resposta incorreta 2">
                     <input class="question-photo inputs-screens-creation" placeholder="URL da imagem 2">
                 </div>
 
                 <div class="double-inputs">
-                    <input class="answer-question-${i} inputs-screens-creation" placeholder="Resposta incorreta 3">
+                    <input class="answer-question-${i} answer-question inputs-screens-creation" placeholder="Resposta incorreta 3">
                     <input class="question-photo inputs-screens-creation" placeholder="URL da imagem 3">
                 </div>
             </div>
         </li>`;
 
-        createPostObject(i);
+        createPostQuestions();
     }
 }
 
-function createPostObject(i){
-    let isTrue = false;
-
-    if(i === 0){
-        isTrue = true;
-    }
-
+function createPostQuestions(){
     myQuizz.questions.push({
         title: '', 
         color: '', 
-        answers: {
-            text: '',
-            image: '',
-            isCorrectAnswer: isTrue
-        }
+        answers: {}
     });
 }
 
 function showCreateScoreScreen() {
-    if(isTrueStringsQuestion(numberOfQuestions) && isTrueColor(numberOfQuestions) && isTextBoxesEmpty(numberOfQuestions) && isAllURL()){
+    if(isTrueStringsQuestion() && isTrueColor() && isTextBoxesEmpty() && isAllURL()){
         questionScreen.classList.toggle('hidden');
         scoreScreen.classList.toggle('hidden');
 
@@ -112,11 +102,11 @@ function showCreateScoreScreen() {
     }
 }
 
-function isTrueStringsQuestion(numberOfThis){
+function isTrueStringsQuestion(){
     let allTexts = questionScreen.querySelectorAll('.input-title-text');
     let j = 0;
 
-    for(let i = 0; i < numberOfThis; i ++){
+    for(let i = 0; i < numberOfQuestions; i ++){
         myQuizz.questions[i].title = allTexts[i].value;
 
         if(myQuizz.questions[i].title.length >= 20){
@@ -124,18 +114,18 @@ function isTrueStringsQuestion(numberOfThis){
         }
     }
 
-    if(j === numberOfThis){
+    if(j === numberOfQuestions){
         return true;
     } else {
         return false;
     }
 }
 
-function isTrueColor(numberOfThis){
+function isTrueColor(){
     let allColorText = questionScreen.querySelectorAll('.color-question');
     
     let isTrue = 0;
-    for(let i = 0; i < numberOfThis; i++){
+    for(let i = 0; i < numberOfQuestions; i++){
         let leters = allColorText[i].value.slice(1);
 
         let j = 0;
@@ -150,7 +140,7 @@ function isTrueColor(numberOfThis){
         }
     }
 
-    if(isTrue === numberOfThis){
+    if(isTrue === numberOfQuestions){
         return true;
     } else {
         return false;
@@ -163,18 +153,10 @@ function isTrueUrl(URL){
     return rule.test(URL)
 }
 
-function isTextBoxesEmpty(numberOfThis){
-    for(let i=0; i<numberOfThis; i++){
-        let allTextBoxes = questionScreen.querySelectorAll(`.answer-question-${i}`);
-
-        for(let j=0; j<2; j++){
-            if(allTextBoxes[j].value === ''){
-                return false;
-            }
-        }
-    }
-
+function isTextBoxesEmpty(){
     return true
+
+    /* FALTA TERMINAR AQUI !!!!!!! */
 }
 
 function isAllURL (){
@@ -211,10 +193,21 @@ function createScoreBoxes() {
                 <input class="score-title inputs-screens-creation" placeholder="Título do nível">
                 <input class="score-percent inputs-screens-creation" placeholder="% de acerto mínima">
                 <input class="URL-score-screen inputs-screens-creation" placeholder="URL da imagem do nível">
-                <input class="inputs-screens-creation score-description" placeholder="Descrição do nível">
+                <input class="score-description inputs-screens-creation" placeholder="Descrição do nível">
             </div>
         </li>`;
+
+        createPostScores();
     }
+}
+
+function createPostScores(){
+    myQuizz.levels.push({
+        title: '',
+        image: '',
+        text: '',
+        minValue: ''        
+    })
 }
 
 function showFinalScreen() {
@@ -289,6 +282,31 @@ function createFinalScreen() {
     </div>
     <button class="button-next">Acessar Quizz</button>
     <button class="button-return" onclick="returnHomePage();">Voltar pra home</button>`
+
+    createMyQuizzObject();
+}
+
+function createMyQuizzObject(){
+    let questionsTitles = questionScreen.querySelectorAll('.input-title-text');
+    let questionsColors = questionScreen.querySelectorAll('.color-question');
+    let questionAnswers = questionScreen.querySelectorAll('.answer-question');
+    let questionURLs = questionScreen.querySelectorAll('.question-photo');
+    let scoreTitle = scoreScreen.querySelectorAll('.score-title');
+    let scoreURLs = scoreScreen.querySelectorAll('.URL-score-screen');
+    let textScores = scoreScreen.querySelectorAll('.score-description')
+    let scoresPoints = scoreScreen.querySelectorAll('.score-percent')
+
+    for(let i  = 0; i < numberOfQuestions; i++){
+        myQuizz.questions[i].title = questionsTitles[i].value;
+        myQuizz.questions[i].color = questionsColors[i].value;
+    }
+
+    for(let i = 0; i < numberOfScores; i++){
+        myQuizz.levels[i].title = scoreTitle[i].value;
+        myQuizz.levels[i].image = scoreURLs[i].value;
+        myQuizz.levels[i].text = textScores[i].value;
+        myQuizz.levels[i].minValue = scoresPoints[i].value;
+    }
 }
 
 function returnHomePage() {
