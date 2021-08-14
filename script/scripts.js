@@ -102,7 +102,7 @@ function createPostObject(i){
 }
 
 function showCreateScoreScreen() {
-    if(/*isTrueStringsQuestion(numberOfQuestions) && isTrueColor(numberOfQuestions) && isTextBoxesEmpty(numberOfQuestions) && isAllURL()*/true){
+    if(isTrueStringsQuestion(numberOfQuestions) && isTrueColor(numberOfQuestions) && isTextBoxesEmpty(numberOfQuestions) && isAllURL()){
         questionScreen.classList.toggle('hidden');
         scoreScreen.classList.toggle('hidden');
 
@@ -241,12 +241,22 @@ function isTitleOk(){
 
 function isPercentOk(){
     let percentScores = scoreScreen.querySelectorAll('.score-percent');
+    let zero = 0;
 
     for(let i = 0; i < percentScores.length; i++){
         if(percentScores[i].value < 0 || percentScores[i].value > 100 || percentScores[i].value === ''){
             return false
         }
+
+        if(Number(percentScores[i].value) === 0){
+            zero++;
+        }
     }
+
+    if(zero !== 1){
+        return false;
+    }
+
     return true;
 }
 
