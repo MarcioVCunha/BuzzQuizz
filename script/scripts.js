@@ -46,6 +46,8 @@ function showCreateQuestionsScreen() {
 }
 
 function createQuestionsBoxes() {    
+    questionScreen.querySelector('ul').innerHTML = '';
+
     for (let i = 0; i < numberOfQuestions; i++) {
         questionScreen.querySelector('ul').innerHTML += `
         <li class="question-creation-box">
@@ -133,7 +135,7 @@ function isTrueColor(){
 
         let j = 0;
         for(let k = 0; k < leters.length; k++){
-            if((leters.charCodeAt(k) >= 48 && leters.charCodeAt(k) <= 57) || (leters.charCodeAt(k) >= 65 && leters.charCodeAt(k) <= 90) || (leters.charCodeAt(k) >= 97 && leters.charCodeAt(k) <= 122)){
+            if((leters.charCodeAt(k) >= 48 && leters.charCodeAt(k) <= 57) || (leters.charCodeAt(k) >= 65 && leters.charCodeAt(k) <= 70) || (leters.charCodeAt(k) >= 97 && leters.charCodeAt(k) <= 102)){
                 j++;
             }
         }
@@ -267,6 +269,7 @@ function showFinalScreen() {
         finalScreen.classList.toggle('hidden');
 
         createMyQuizzScores();
+        postQuizz();
         createFinalScreen();
     } else {
         alert('Favor preencher os campos corretamente.')
@@ -341,6 +344,31 @@ function createMyQuizzScores(){
             minValue: Number(allPercent[i].value)
         })
     }
+}
+
+function postQuizz(){
+    let promise = axios.post(URL_POST, myQuizz);
+
+    promise.then(handleSucces);
+    promise.catch((object) => alert('erro'));
+}
+
+function handleSucces(object){
+    const idMyQuizz = object.data.id;
+
+    let allIds = localStorage.getItem('listIDs');
+    let allIdList;
+
+    if(allIds === null){
+        allIdList = [];
+    } else {
+        allIdList = JSON.parse(allIds);
+    }
+
+    allIdList.push(idMyQuizz);
+    allIds = JSON.stringify(allIdList);
+
+    localStorage.setItem('listIDs', allIds);
 }
 
 function createFinalScreen() {
