@@ -5,10 +5,13 @@ const scoreScreen = document.querySelector('.score-screen');
 const finalScreen = document.querySelector('.final-quizz-screen');
 const URL_Servidor = "https://mock-api.bootcamp.respondeai.com.br/api/v3/buzzquizz/quizzes";
 const conteiner = document.querySelector(".conteiner-quiz");
+const quizzScreen = document.querySelector(".open-quiz");
+const conteinerAnswer = document.querySelector(".conteiner-answer");
 
 let numberOfQuestions;
 let numberOfScores;
 let quizz = [];
+let id = 0;
 
 function showCreateQuizzScreen() {
     mainScreen.classList.toggle('hidden');
@@ -118,12 +121,14 @@ function renderQuizz(element) {
     for (let i = 0; i < quizz.length; i++) {
         if (i % 3 == 2) {
             conteiner.innerHTML += `
-        <div class="quiz no-margin-right" style="background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.5) 60%, #000000 100%), url(${quizz[i].image});">
+        <div id="${quizz[i].id}" class="quiz no-margin-right" style="background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.5) 60%, #000000 100%), url(${quizz[i].image});" onclick = "openQuizz(this);">
+            
             <p>${quizz[i].title}</p>
         </div>`;
         } else {
             conteiner.innerHTML += `
-        <div class="quiz" style="background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.5) 60%, #000000 100%), url(${quizz[i].image});">
+        <div id="${quizz[i].id}" class="quiz" style="background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.5) 60%, #000000 100%), url(${quizz[i].image});" onclick = "openQuizz(this);">
+            
             <p>${quizz[i].title}</p>
         </div>`;
         }
