@@ -362,20 +362,18 @@ function openQuizz (quizzClicado) {
     callOneQuizz();
     mainScreen.classList.toggle('hidden');
     quizzScreen.classList.toggle('hidden');
-  }
+}
   
-  function callOneQuizz () {
+function callOneQuizz () {
     const promise = axios.get(`${URL_Servidor}/${id}`);
     promise.then(createQuizzScreen);
-  }
+}
   
-  function createQuizzScreen (element) {  
+function createQuizzScreen (element) {  
     
     const oQuiz = element.data;
     const questions = oQuiz.questions;
-    console.log (quizzScreen)
     quizzScreen.innerHTML = "";
-    //conteinerAnswer.innerHTML = "";   
     
     quizzScreen.innerHTML += `<div class="title-quizz" style="background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.5) 60%, #000000 100%), url(${oQuiz.image});">
     ${oQuiz.title}</div>`;
@@ -392,14 +390,18 @@ function openQuizz (quizzClicado) {
         conteinerAnswer.innerHTML = "";
   
         for (let j = 0; j<answers.length; j++){
-            console.log (answers[j]);
-            conteinerAnswer.innerHTML += `<div id="${answers[j].isCorrectAnswer}" class="answer">
+            conteinerAnswer.innerHTML += `<div id="${answers[j].isCorrectAnswer}" class="answer" onclick="reply(this);">
             <img src="${answers[j].image}">
             <p>${answers[j].text}</p></div>`;
         }
     }  
-  }
+}
   
-  function comparador() { 
-  return Math.random() - 0.5; 
-  }
+function comparador() { 
+return Math.random() - 0.5;
+}
+
+function reply(element) {    
+    element.classList.add('no-clicked');
+    console.log(element)
+}

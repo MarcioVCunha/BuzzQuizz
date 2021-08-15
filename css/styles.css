@@ -300,19 +300,35 @@ h2 {
     width: 330px;
 }
 
+.normal {
+    color: black;
+}
+
+.normal img {
+    opacity: 1.0;
+}
+
 .clicked {
     color: #009C22;
+}
+
+.clicked img {
+    opacity: 1.0;
 }
 
 .no-clicked {
     color: #FF4B4B;
 }
 
+.no-clicked img{
+    opacity: 0.4;
+}
+
 .answer > p {
     width: 100%;
     font-size: 20px;
     font-weight: bold;
-    word-break: break-all
+    word-break: break-all;
 }
 
 .answer > img {
