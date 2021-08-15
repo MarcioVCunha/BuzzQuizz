@@ -130,6 +130,7 @@ header {
     font-size: 19px;
     color: #FFFFFF;
     margin-right: 30px;
+    word-break: break-all;
 }
 
 h2 {
@@ -260,13 +261,14 @@ h2 {
     font-size: 30px;
     color: white;
     font-weight: bold;
-    background-color: red;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-size: 100% 100% !important;
+    overflow: hidden;
+    background: 100% 100%;
 }
 
+.conteiner-score,
 .conteiner-question {
     margin-top: 50px;
     width: 759px;
@@ -280,29 +282,74 @@ h2 {
 .question {
     display: flex;
     justify-content: center;
-    align-items: center;
     color: #FFFFFF;
     font-size: 23px;
     font-weight: bold;
-    height: 138px;
-    background-color: #434CA0;
+    text-align: center;
+    padding: 20px;
 }
 
 .conteiner-answer {
+    width: 100%;
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
-    
+}
+
+.answer {   
+    width: 330px;
+}
+
+.clicked {
+    color: #009C22;
+}
+
+.no-clicked {
+    color: #FF4B4B;
 }
 
 .answer > p {
+    width: 100%;
     font-size: 20px;
     font-weight: bold;
+    word-break: break-all
 }
 
 .answer > img {
-    width: 329.9px;
-    height: 175.2px;
+    width: 330px;
+    height: 175px;
     margin-bottom: 9px;
     margin-top: 20px;
+}
+
+.conteiner-score {
+    padding: 20px;
+    color: white;
+    font-size: 23px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.score-percentual {
+    padding: 35px 40px;
+    background-color: red;
+}
+
+.img-text-score {
+    margin-top: 20px;
+    margin-right: 20px;
+    display: flex;
+}
+
+.img-text-score > img {
+    width: 364px;
+    height: 273px;
+}
+
+.text {
+    font-size: 19px;
+    text-align: left;
+    color: black;
+    margin-left: 20px;
 }

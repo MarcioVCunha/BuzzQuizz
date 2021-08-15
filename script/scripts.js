@@ -14,10 +14,15 @@ const questionScreen = document.querySelector('.question-screen');
 const scoreScreen = document.querySelector('.score-screen');
 const finalScreen = document.querySelector('.final-quizz-screen');
 const conteiner = document.querySelector(".conteiner-quiz");
+const quizzScreen = document.querySelector(".open-quiz");
+const conteinerAnswer = document.querySelector(".conteiner-answer");
 
 let numberOfQuestions;
 let numberOfScores;
 let quizz = [];
+let id = 0;
+
+callQuizz();
 
 function showCreateQuizzScreen() {
     mainScreen.classList.toggle('hidden');
@@ -363,12 +368,14 @@ function renderQuizz(element) {
     for (let i = 0; i < quizz.length; i++) {
         if (i % 3 == 2) {
             conteiner.innerHTML += `
-        <div class="quiz no-margin-right" style="background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.5) 60%, #000000 100%), url(${quizz[i].image});">
+        <div id="${quizz[i].id}" class="quiz no-margin-right" style="background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.5) 60%, #000000 100%), url(${quizz[i].image});" onclick = "openQuizz(this);">
+            
             <p>${quizz[i].title}</p>
         </div>`;
         } else {
             conteiner.innerHTML += `
-        <div class="quiz" style="background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.5) 60%, #000000 100%), url(${quizz[i].image});">
+        <div id="${quizz[i].id}" class="quiz" style="background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.5) 60%, #000000 100%), url(${quizz[i].image});" onclick = "openQuizz(this);">
+            
             <p>${quizz[i].title}</p>
         </div>`;
         }
@@ -388,4 +395,49 @@ function showInputs(element, thisScreen, numberOfThis){
     element.classList.add('hidden');
 }
 
-callQuizz();
+function openQuizz (quizzClicado) {
+    id = Number(quizzClicado.getAttribute("id"));
+    callOneQuizz();
+    mainScreen.classList.toggle('hidden');
+    quizzScreen.classList.toggle('hidden');
+  }
+  
+  function callOneQuizz () {
+    const promise = axios.get(`${URL_Servidor}/${id}`);
+    promise.then(createQuizzScreen);
+  }
+  
+  function createQuizzScreen (element) {  
+    
+    const oQuiz = element.data;
+    const questions = oQuiz.questions;
+    console.log (quizzScreen)
+    quizzScreen.innerHTML = "";
+    //conteinerAnswer.innerHTML = "";   
+    
+    quizzScreen.innerHTML += `<div class="title-quizz" style="background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.5) 60%, #000000 100%), url(${oQuiz.image});">
+    ${oQuiz.title}</div>`;
+  
+    for (let i = 0; i<questions.length; i++){
+        
+        quizzScreen.innerHTML += `<div class="conteiner-question i${i}">
+        <div class="question" style="background-color: ${questions[i].color};">${questions[i].title}</div>
+        <div class="conteiner-answer"></div></div>`;
+
+        questions[i].answers.sort(comparador);    
+        let answers = questions[i].answers;
+        let conteinerAnswer = document.querySelector(".i"+ i +"> .conteiner-answer");
+        conteinerAnswer.innerHTML = "";
+  
+        for (let j = 0; j<answers.length; j++){
+            console.log (answers[j]);
+            conteinerAnswer.innerHTML += `<div id="${answers[j].isCorrectAnswer}" class="answer">
+            <img src="${answers[j].image}">
+            <p>${answers[j].text}</p></div>`;
+        }
+    }  
+  }
+  
+  function comparador() { 
+  return Math.random() - 0.5; 
+  }
