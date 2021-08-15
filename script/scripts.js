@@ -40,10 +40,7 @@ function showCreateQuestionsScreen() {
     }
 }
 
-function createQuestionsBoxes() {
-    let respostasIncorretas = '';
-    questionScreen.querySelector('ul').innerHTML = '';
-    
+function createQuestionsBoxes() {    
     for (let i = 0; i < numberOfQuestions; i++) {
         questionScreen.querySelector('ul').innerHTML += `
         <li class="question-creation-box">
@@ -57,24 +54,24 @@ function createQuestionsBoxes() {
                 <input class="color-question inputs-screens-creation" placeholder="Cor de fundo da pergunta">
             
                 <p class="paragraph-screens-creation">Resposta correta</p>
-                <input class="answer-question-${i} answer-question inputs-screens-creation" placeholder="Resposta correta">
-                <input class="question-photo inputs-screens-creation" placeholder="URL da imagem">
+                <input class="right-answer-question inputs-screens-creation" placeholder="Resposta correta">
+                <input class="right-question-photo inputs-screens-creation" placeholder="URL da imagem">
 
                 <p class="paragraph-screens-creation">Respostas incorretas</p>
 
                 <div class="double-inputs">
-                    <input class="answer-question-${i} answer-question inputs-screens-creation" placeholder="Resposta incorreta 1">
-                    <input class="question-photo inputs-screens-creation" placeholder="URL da imagem 1">
+                    <input class="wrong-answer-question-${i} inputs-screens-creation" placeholder="Resposta incorreta 1">
+                    <input class="wrong-answer-photo-${i} inputs-screens-creation" placeholder="URL da imagem 1">
                 </div>
 
                 <div class="double-inputs">
-                    <input class="answer-question-${i} answer-question inputs-screens-creation" placeholder="Resposta incorreta 2">
-                    <input class="question-photo inputs-screens-creation" placeholder="URL da imagem 2">
+                    <input class="wrong-answer-question-${i} inputs-screens-creation" placeholder="Resposta incorreta 2">
+                    <input class="wrong-answer-photo-${i} inputs-screens-creation" placeholder="URL da imagem 2">
                 </div>
 
                 <div class="double-inputs">
-                    <input class="answer-question-${i} answer-question inputs-screens-creation" placeholder="Resposta incorreta 3">
-                    <input class="question-photo inputs-screens-creation" placeholder="URL da imagem 3">
+                    <input class="wrong-answer-question-${i} inputs-screens-creation" placeholder="Resposta incorreta 3">
+                    <input class="wrong-answer-photo-${i} inputs-screens-creation" placeholder="URL da imagem 3">
                 </div>
             </div>
         </li>`;
@@ -85,17 +82,18 @@ function createQuestionsBoxes() {
 
 function createPostQuestions(){
     myQuizz.questions.push({
-        title: '', 
-        color: '', 
-        answers: {}
+        title: '',
+        color: '',
+        answers: []
     });
 }
 
 function showCreateScoreScreen() {
-    if(isTrueStringsQuestion() && isTrueColor() && isTextBoxesEmpty() && isAllURL()){
+    if(isTrueStringsQuestion() && isTrueColor() && isTextBoxesEmpty() && isAllURL() && isThereEnoughWrongAnswers()){
         questionScreen.classList.toggle('hidden');
         scoreScreen.classList.toggle('hidden');
 
+        createMyQuizzQuestions();
         createScoreBoxes();
     } else {
         alert('Favor preencher os campos corretamente.')
@@ -154,9 +152,15 @@ function isTrueUrl(URL){
 }
 
 function isTextBoxesEmpty(){
-    return true
+    let rightAnswers = questionScreen.querySelectorAll('.right-answer-question');
 
-    /* FALTA TERMINAR AQUI !!!!!!! */
+    for(let i = 0; i < numberOfQuestions; i++){
+        if(rightAnswers[i].value === ''){
+            return false
+        }
+    }
+
+    return true;
 }
 
 function isAllURL (){
@@ -178,6 +182,59 @@ function isAllURL (){
     return true;
 }
 
+function isThereEnoughWrongAnswers(){
+    for(let i = 0; i < numberOfQuestions; i++){
+        let allWrongAnswers = questionScreen.querySelectorAll(`.wrong-answer-question-${i}`);
+
+        let notEmpty = 3;
+        for(let j = 0; j < allWrongAnswers.length; j++){
+            if(allWrongAnswers[j].value === ''){
+                notEmpty--;
+            }
+        }
+        if(notEmpty === 0){
+            return false
+        }
+    }
+
+    return true;
+}
+
+function createMyQuizzQuestions(){
+    let questionsTitles = questionScreen.querySelectorAll('.input-title-text');
+    let questionsColors = questionScreen.querySelectorAll('.color-question');
+    let questionsRightAnswers = questionScreen.querySelectorAll('.right-answer-question');
+    let questionsImages = questionScreen.querySelectorAll('.right-question-photo');
+
+    for(let i = 0; i < numberOfQuestions; i++){
+        myQuizz.questions[i].title = questionsTitles[i].value;
+        myQuizz.questions[i].color = questionsColors[i].value;
+
+        creareMyQuizzAnswers(i, questionsRightAnswers, questionsImages);
+    }
+}
+
+function creareMyQuizzAnswers(i, questionsRightAnswers, questionsImages){
+    myQuizz.questions[i].answers.push({
+        text: questionsRightAnswers[i].value,
+        image: questionsImages[i].value,
+        isCorrectAnswer: true
+    })
+
+    let wrongAnswers = questionScreen.querySelectorAll(`.wrong-answer-question-${i}`)
+    let wrongAnswersPhoto = questionScreen.querySelectorAll(`.wrong-answer-photo-${i}`)
+
+    for(let j = 0; j < wrongAnswers.length; j++){
+        if(wrongAnswers[j].value !== ''){
+            myQuizz.questions[i].answers.push({
+                text: wrongAnswers[j].value,
+                image: wrongAnswersPhoto[j].value,
+                isCorrectAnswer: false
+            })
+        }
+    }
+}
+
 function createScoreBoxes() {
     scoreScreen.querySelector('ul').innerHTML = '';
 
@@ -196,18 +253,7 @@ function createScoreBoxes() {
                 <input class="score-description inputs-screens-creation" placeholder="Descrição do nível">
             </div>
         </li>`;
-
-        createPostScores();
     }
-}
-
-function createPostScores(){
-    myQuizz.levels.push({
-        title: '',
-        image: '',
-        text: '',
-        minValue: ''        
-    })
 }
 
 function showFinalScreen() {
@@ -215,6 +261,7 @@ function showFinalScreen() {
         scoreScreen.classList.toggle('hidden');
         finalScreen.classList.toggle('hidden');
 
+        createMyQuizzScores();
         createFinalScreen();
     } else {
         alert('Favor preencher os campos corretamente.')
@@ -275,6 +322,22 @@ function isScoreDescriptionOk(){
     return true;
 }
 
+function createMyQuizzScores(){
+    let allTitles = scoreScreen.querySelectorAll('.score-title');
+    let allPercent = scoreScreen.querySelectorAll('.score-percent');
+    let allImages = scoreScreen.querySelectorAll('.URL-score-screen');
+    let allTexts = scoreScreen.querySelectorAll('.score-description');
+
+    for(let i = 0; i < numberOfScores; i++){
+        myQuizz.levels.push({
+            title: allTitles[i].value,
+            image: allImages[i].value,
+            text: allTexts[i].value,
+            minValue: Number(allPercent[i].value)
+        })
+    }
+}
+
 function createFinalScreen() {
     finalScreen.innerHTML = `
     <div class="final-image" style="background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.5) 60%, #000000 100%), url(${myQuizz.image});">
@@ -282,31 +345,6 @@ function createFinalScreen() {
     </div>
     <button class="button-next">Acessar Quizz</button>
     <button class="button-return" onclick="returnHomePage();">Voltar pra home</button>`
-
-    createMyQuizzObject();
-}
-
-function createMyQuizzObject(){
-    let questionsTitles = questionScreen.querySelectorAll('.input-title-text');
-    let questionsColors = questionScreen.querySelectorAll('.color-question');
-    let questionAnswers = questionScreen.querySelectorAll('.answer-question');
-    let questionURLs = questionScreen.querySelectorAll('.question-photo');
-    let scoreTitle = scoreScreen.querySelectorAll('.score-title');
-    let scoreURLs = scoreScreen.querySelectorAll('.URL-score-screen');
-    let textScores = scoreScreen.querySelectorAll('.score-description')
-    let scoresPoints = scoreScreen.querySelectorAll('.score-percent')
-
-    for(let i  = 0; i < numberOfQuestions; i++){
-        myQuizz.questions[i].title = questionsTitles[i].value;
-        myQuizz.questions[i].color = questionsColors[i].value;
-    }
-
-    for(let i = 0; i < numberOfScores; i++){
-        myQuizz.levels[i].title = scoreTitle[i].value;
-        myQuizz.levels[i].image = scoreURLs[i].value;
-        myQuizz.levels[i].text = textScores[i].value;
-        myQuizz.levels[i].minValue = scoresPoints[i].value;
-    }
 }
 
 function returnHomePage() {
