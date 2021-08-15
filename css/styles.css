@@ -282,38 +282,42 @@ h2 {
 .question {
     display: flex;
     justify-content: center;
-    align-items: center;
     color: #FFFFFF;
     font-size: 23px;
     font-weight: bold;
-    height: 138px;
+    text-align: center;
+    padding: 20px;
 }
 
 .conteiner-answer {
+    width: 100%;
     display: flex;
     justify-content: space-between;
-    flex-wrap: wrap;    
+    flex-wrap: wrap;
 }
 
 .answer {   
+    width: 330px;
 }
 
-.correct {
+.clicked {
     color: #009C22;
 }
 
-.incorrect {
+.no-clicked {
     color: #FF4B4B;
 }
 
 .answer > p {
+    width: 100%;
     font-size: 20px;
     font-weight: bold;
+    word-break: break-all
 }
 
 .answer > img {
-    width: 329.9px;
-    height: 175.2px;
+    width: 330px;
+    height: 175px;
     margin-bottom: 9px;
     margin-top: 20px;
 }

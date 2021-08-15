@@ -22,6 +22,8 @@ let numberOfScores;
 let quizz = [];
 let id = 0;
 
+callQuizz();
+
 function showCreateQuizzScreen() {
     mainScreen.classList.toggle('hidden');
     nameScreen.classList.toggle('hidden');
@@ -371,6 +373,7 @@ function openQuizz (quizzClicado) {
     
     const oQuiz = element.data;
     const questions = oQuiz.questions;
+    console.log (quizzScreen)
     quizzScreen.innerHTML = "";
     //conteinerAnswer.innerHTML = "";   
     
@@ -379,31 +382,24 @@ function openQuizz (quizzClicado) {
   
     for (let i = 0; i<questions.length; i++){
         
-        quizzScreen.innerHTML += `<div class="conteiner-question">
+        quizzScreen.innerHTML += `<div class="conteiner-question i${i}">
         <div class="question" style="background-color: ${questions[i].color};">${questions[i].title}</div>
         <div class="conteiner-answer"></div></div>`;
-  
-        questions[i].answers.sort(comparador);
-    }
-  
-    conteinerAnswer.innerHTML = "";
-  
-    /*for (let i = 0; i<questions.length; i++){
+
+        questions[i].answers.sort(comparador);    
         let answers = questions[i].answers;
+        let conteinerAnswer = document.querySelector(".i"+ i +"> .conteiner-answer");
+        conteinerAnswer.innerHTML = "";
   
         for (let j = 0; j<answers.length; j++){
             console.log (answers[j]);
-            conteinerAnswer.innerHTML += `Vasco`; /*`<div id="${answers[j].isCorrectAnswer}" class="answer">
+            conteinerAnswer.innerHTML += `<div id="${answers[j].isCorrectAnswer}" class="answer">
             <img src="${answers[j].image}">
             <p>${answers[j].text}</p></div>`;
         }
-    }*/
-  
+    }  
   }
   
   function comparador() { 
   return Math.random() - 0.5; 
   }
-
-
-callQuizz();
