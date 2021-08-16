@@ -21,6 +21,8 @@ let numberOfQuestions;
 let numberOfScores;
 let quizz = [];
 let id = 0;
+let oQuiz = {};
+let questions = [];
 
 callQuizz();
 
@@ -437,8 +439,8 @@ function callOneQuizz () {
   
 function createQuizzScreen (element) {  
     
-    const oQuiz = element.data;
-    const questions = oQuiz.questions;
+    oQuiz = element.data;
+    questions = oQuiz.questions;
     quizzScreen.innerHTML = "";
     
     quizzScreen.innerHTML += `<div class="title-quizz" style="background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.5) 60%, #000000 100%), url(${oQuiz.image});">
@@ -467,7 +469,54 @@ function comparador() {
 return Math.random() - 0.5;
 }
 
-function reply(element) {    
-    element.classList.add('no-clicked');
-    console.log(element)
+function reply(element) {
+    alterStyle(element);
+    saveCorrect(element)
+    endGame()
+}
+
+function alterStyle(element) {
+    element.classList.add('clicked');
+    const pai = element.parentNode.childNodes;
+
+    for (let i = 0; i < pai.length; i++){
+        if (pai[i].innerHTML !== element.innerHTML){
+            pai[i].classList.add('no-clicked');
+        }
+    }    
+}
+
+let contAcert = 0;
+function saveCorrect(element) {
+    const correct = element.getAttribute('id');
+    console.log (correct);
+    if (correct){
+        contAcert++;
+    }
+}
+
+let qntQuestions = 0;
+function endGame(){
+    qntQuestions++;
+    console.log(qntQuestions);
+    const percent = Math.round((contAcert/qntQuestions)*100);
+    console.log (percent);
+    let level = oQuiz.levels;
+    let result = [];
+
+    if(qntQuestions === questions.length){
+        for (let i = 1; i < level.length; i++){
+            if (percent >= level[i-1].minValue && percent < level[i].minValue){
+                result = level[i-1];
+            }
+        }
+        quizzScreen.innerHTML += `
+        <div class = "conteiner-score">
+            <div class = "score-percentual">${percent}% de acerto: ${result.title}</div>
+            <div class = "img-text-score">
+                <img src = "${result.image}">
+                <div class = "text">${result.text}</div>
+            </div>
+        </div>`;// falta acrescentar os botões home e refazer quizz
+    }
 }
