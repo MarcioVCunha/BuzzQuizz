@@ -393,7 +393,6 @@ function returnHomePage() {
 function callQuizz() {
     const promise = axios.get(URL_Servidor);
     promise.then(renderQuizz);
-    promise.catch(err);
 }
 
 function renderQuizz(element) {
@@ -440,13 +439,6 @@ function openQuizz (quizzClicado) {
 function callOneQuizz () {
     const promise = axios.get(`${URL_Servidor}/${id}`);
     promise.then(createQuizzScreen);
-    promise.catch(err);
-}
-
-function err (element) {
-    if (element !== undefined){
-        window.location.reload();
-    }
 }
   
 function createQuizzScreen (element) {  
@@ -467,6 +459,7 @@ function createQuizzScreen (element) {
         questions[i].answers.sort(comparador);    
         let answers = questions[i].answers;
         let conteinerAnswer = document.querySelector(".i"+ i +"> .conteiner-answer");
+
         conteinerAnswer.innerHTML = "";
   
         for (let j = 0; j<answers.length; j++){
@@ -482,14 +475,21 @@ return Math.random() - 0.5;
 }
 
 function reply(element) {
-    if(!(element.classList.contains ("clicked") || element.classList.contains("no-clicked"))){
-        alterStyle(element);
-    }
+
+    const father = element.parentNode.childNodes;
     
-    saveCorrect(element);
-    endGame();
-    let scroll = document.querySelector(".i" + qntQuestions + "> .question");
-    scroll.scrollIntoView;
+
+    for(let i = 0; i < father.length; i++){
+        if(!(father[i].classList.contains("clicked") || father[i].classList.contains("no-clicked"))){
+            
+            alterStyle(element);
+            saveCorrect(element);
+            endGame();
+
+            let scroll = document.querySelector(".i" + qntQuestions + "> .question");
+            scroll.scrollIntoView;
+        }
+    }
 }
 
 function alterStyle(element) {
@@ -505,18 +505,14 @@ function alterStyle(element) {
 
 function saveCorrect(element) {
     const correct = element.getAttribute('id');
-    console.log (correct);
     if (correct==='true'){
         contAcert++;
     }
-    console.log(contAcert)
 }
 
 function endGame(){
     qntQuestions++;
-    console.log(qntQuestions);
     const percent = Math.round((contAcert/qntQuestions)*100);
-    console.log (percent);
     let level = oQuiz.levels;
     let result;
     let i = 1
@@ -566,15 +562,37 @@ function restartQuizz() {
 
 let userQuizz;
 function callMyQuizz() {
-    userQuizz = localStorage.getItem('listIDs');
-    console.log(userQuizz)
-    if (userQuizz !== null) {
-        console.log(userQuizz)
-        let deserializado = JSON.parse(userQuizz);
-        console.log(deserializado)
-    }    
+    const promise = axios.get(URL_Servidor);
+    promise.then(renderQuizz);
 }
 
-function renderMyQuizz() {
-    
+// function callMyQuizz() {
+//     userQuizz = localStorage.getItem('listIDs');
+//     console.log(userQuizz)
+//     if (userQuizz !== null) {
+//         console.log(userQuizz)
+//         let deserializado = JSON.parse(userQuizz);
+//         console.log(deserializado)
+//     }    
+// }
+
+function renderMyQuizz(element) {
+    restart = element;
+    conteiner.innerHTML = "";
+    quizz = element.data;
+    for (let i = 0; i < quizz.length; i++) {
+        if (i % 3 == 2) {
+            conteiner.innerHTML += `
+        <div id="${quizz[i].id}" class="quiz no-margin-right" style="background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.5) 60%, #000000 100%), url(${quizz[i].image});" onclick = "openQuizz(this);">
+            
+            <p>${quizz[i].title}</p>
+        </div>`;
+        } else {
+            conteiner.innerHTML += `
+        <div id="${quizz[i].id}" class="quiz" style="background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.5) 60%, #000000 100%), url(${quizz[i].image});" onclick = "openQuizz(this);">
+            
+            <p>${quizz[i].title}</p>
+        </div>`;
+        }
+    }
 }
