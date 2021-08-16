@@ -391,6 +391,7 @@ function returnHomePage() {
 function callQuizz() {
     const promise = axios.get(URL_Servidor);
     promise.then(renderQuizz);
+    promise.catch(err);
 }
 
 function renderQuizz(element) {
@@ -437,6 +438,13 @@ function openQuizz (quizzClicado) {
 function callOneQuizz () {
     const promise = axios.get(`${URL_Servidor}/${id}`);
     promise.then(createQuizzScreen);
+    promise.catch(err);
+}
+
+function err (element) {
+    if (element !== undefined){
+        window.location.reload();
+    }
 }
   
 function createQuizzScreen (element) {  
@@ -472,24 +480,15 @@ return Math.random() - 0.5;
 }
 
 function reply(element) {
-   /* const father = element.parentNode.childNodes;
-    console.log(father)
-    father.array.forEach(() => {
-        
-    }, index);
-    */
-    alterStyle(element);
+    if(!(element.classList.contains ("clicked") || element.classList.contains("no-clicked"))){
+        alterStyle(element);
+    }
+    
     saveCorrect(element);
     endGame();
     let scroll = document.querySelector(".i" + qntQuestions + "> .question");
     scroll.scrollIntoView;
 }
-
-/*function verified(, index){
-    if(!(father[index]== || father[index].contains("no-clicked"))){
-        alterStyle(element);
-    }
-}*/
 
 function alterStyle(element) {
     element.classList.add('clicked');
@@ -566,27 +565,9 @@ function restartQuizz() {
 }
 
 function callMyQuizz() {
-    const promise = axios.get(URL_Servidor);
-    promise.then(renderQuizz);
+    
 }
 
-function renderMyQuizz(element) {
-    restart = element;
-    conteiner.innerHTML = "";
-    quizz = element.data;
-    for (let i = 0; i < quizz.length; i++) {
-        if (i % 3 == 2) {
-            conteiner.innerHTML += `
-        <div id="${quizz[i].id}" class="quiz no-margin-right" style="background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.5) 60%, #000000 100%), url(${quizz[i].image});" onclick = "openQuizz(this);">
-            
-            <p>${quizz[i].title}</p>
-        </div>`;
-        } else {
-            conteiner.innerHTML += `
-        <div id="${quizz[i].id}" class="quiz" style="background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.5) 60%, #000000 100%), url(${quizz[i].image});" onclick = "openQuizz(this);">
-            
-            <p>${quizz[i].title}</p>
-        </div>`;
-        }
-    }
+function renderMyQuizz() {
+    
 }
