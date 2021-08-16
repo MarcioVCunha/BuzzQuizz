@@ -16,6 +16,7 @@ const finalScreen = document.querySelector('.final-quizz-screen');
 const conteiner = document.querySelector(".conteiner-quiz");
 const quizzScreen = document.querySelector(".open-quiz");
 const conteinerAnswer = document.querySelector(".conteiner-answer");
+const created= document.querySelector(".created");
 
 let numberOfQuestions;
 let numberOfScores;
@@ -382,7 +383,7 @@ function createFinalScreen() {
         <p>${myQuizz.title}</p>
     </div>
     <button class="button-next">Acessar Quizz</button>
-    <button class="button-return" onclick="returnHomePage();">Voltar pra home</button>`
+    <button class="button-return" onclick="returnHomePage(); newAddQuizz();">Voltar pra home</button>`
 }
 
 function returnHomePage() {
@@ -486,7 +487,7 @@ function reply(element) {
             saveCorrect(element);
             endGame();
 
-            let scroll = document.querySelector(".i" + qntQuestions + "> .question");
+            let scroll = document.querySelector(".i" + qntQuestions + " > .question");
             scroll.scrollIntoView;
         }
     }
@@ -560,39 +561,29 @@ function restartQuizz() {
     callOneQuizz();
 }
 
+function newAddQuizz (){
+    created.innerHTML = "";
+    created.innerHTML += `
+    <div class="topo-created">
+        <h1>Seus Quizzes</h1>
+        <ion-icon name="add-circle"></ion-icon>
+    </div>
+    <div class="conteiner-created">
+        <div class="quiz">
+        <p></p>
+        </div>
+    </div>`;
+}
+
 let userQuizz;
 function callMyQuizz() {
     const promise = axios.get(URL_Servidor);
     promise.then(renderQuizz);
 }
 
-// function callMyQuizz() {
-//     userQuizz = localStorage.getItem('listIDs');
-//     console.log(userQuizz)
-//     if (userQuizz !== null) {
-//         console.log(userQuizz)
-//         let deserializado = JSON.parse(userQuizz);
-//         console.log(deserializado)
-//     }    
-// }
-
-function renderMyQuizz(element) {
-    restart = element;
-    conteiner.innerHTML = "";
-    quizz = element.data;
-    for (let i = 0; i < quizz.length; i++) {
-        if (i % 3 == 2) {
-            conteiner.innerHTML += `
-        <div id="${quizz[i].id}" class="quiz no-margin-right" style="background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.5) 60%, #000000 100%), url(${quizz[i].image});" onclick = "openQuizz(this);">
-            
-            <p>${quizz[i].title}</p>
-        </div>`;
-        } else {
-            conteiner.innerHTML += `
-        <div id="${quizz[i].id}" class="quiz" style="background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.5) 60%, #000000 100%), url(${quizz[i].image});" onclick = "openQuizz(this);">
-            
-            <p>${quizz[i].title}</p>
-        </div>`;
-        }
+function callMyQuizz() {
+    userQuizz = localStorage.getItem('listIDs');
+    if (userQuizz !== null) {
+        let deserializado = JSON.parse(userQuizz);
     }
 }
