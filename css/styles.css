@@ -433,4 +433,16 @@ h2 {
     .button-return {
         width: 240px;        
     }
+
+    .conteiner-inputs{
+        width: 100%;
+    }
+
+    .question-creation-box{
+        width: 100%;
+    }
+
+    .final-image{
+        width: 100%;
+    }
 }
