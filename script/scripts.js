@@ -23,6 +23,7 @@ let quizz = [];
 let id = 0;
 let oQuiz = {};
 let questions = [];
+let restart = {};
 
 callQuizz();
 
@@ -393,6 +394,7 @@ function callQuizz() {
 }
 
 function renderQuizz(element) {
+    restart = element;
     conteiner.innerHTML = "";
     quizz = element.data;
     for (let i = 0; i < quizz.length; i++) {
@@ -470,10 +472,24 @@ return Math.random() - 0.5;
 }
 
 function reply(element) {
+   /* const father = element.parentNode.childNodes;
+    console.log(father)
+    father.array.forEach(() => {
+        
+    }, index);
+    */
     alterStyle(element);
-    saveCorrect(element)
-    endGame()
+    saveCorrect(element);
+    endGame();
+    let scroll = document.querySelector(".i" + qntQuestions + "> .question");
+    scroll.scrollIntoView;
 }
+
+/*function verified(, index){
+    if(!(father[index]== || father[index].contains("no-clicked"))){
+        alterStyle(element);
+    }
+}*/
 
 function alterStyle(element) {
     element.classList.add('clicked');
@@ -490,9 +506,10 @@ let contAcert = 0;
 function saveCorrect(element) {
     const correct = element.getAttribute('id');
     console.log (correct);
-    if (correct){
+    if (correct==='true'){
         contAcert++;
     }
+    console.log(contAcert)
 }
 
 let qntQuestions = 0;
@@ -502,10 +519,11 @@ function endGame(){
     const percent = Math.round((contAcert/qntQuestions)*100);
     console.log (percent);
     let level = oQuiz.levels;
-    let result = [];
+    let result;
+    let i = 1
 
     if(qntQuestions === questions.length){
-        for (let i = 1; i < level.length; i++){
+        for (i; i < level.length; i++){
             if (percent >= level[i-1].minValue && percent < level[i].minValue){
                 result = level[i-1];
             }
@@ -517,6 +535,58 @@ function endGame(){
                 <img src = "${result.image}">
                 <div class = "text">${result.text}</div>
             </div>
-        </div>`;// falta acrescentar os botões home e refazer quizz
+        </div>
+        <button class="button-next" onclick="restartQuizz();">Reiniciar Quizz</button>
+        <button class="button-return" onclick="returnHome();">Voltar pra home</button>`;// falta acrescentar os botões home e refazer quizz
+    }
+}
+
+function returnHome() {
+    quizzScreen.classList.toggle('hidden');
+    mainScreen.classList.toggle('hidden');
+    qntQuestions = 0;
+    contAcert = 0;
+    let quizz = [];
+    let id = 0;
+    let oQuiz = {};
+    let questions = [];
+    let restart = {};
+}
+
+function restartQuizz() {
+    quizzScreen.classList.toggle('hidden');
+    callOneQuizz();
+    qntQuestions = 0;
+    contAcert = 0;
+    let quizz = [];
+    let id = 0;
+    let oQuiz = {};
+    let questions = [];
+    let restart = {};
+}
+
+function callMyQuizz() {
+    const promise = axios.get(URL_Servidor);
+    promise.then(renderQuizz);
+}
+
+function renderMyQuizz(element) {
+    restart = element;
+    conteiner.innerHTML = "";
+    quizz = element.data;
+    for (let i = 0; i < quizz.length; i++) {
+        if (i % 3 == 2) {
+            conteiner.innerHTML += `
+        <div id="${quizz[i].id}" class="quiz no-margin-right" style="background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.5) 60%, #000000 100%), url(${quizz[i].image});" onclick = "openQuizz(this);">
+            
+            <p>${quizz[i].title}</p>
+        </div>`;
+        } else {
+            conteiner.innerHTML += `
+        <div id="${quizz[i].id}" class="quiz" style="background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.5) 60%, #000000 100%), url(${quizz[i].image});" onclick = "openQuizz(this);">
+            
+            <p>${quizz[i].title}</p>
+        </div>`;
+        }
     }
 }
