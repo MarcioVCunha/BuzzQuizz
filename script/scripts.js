@@ -24,6 +24,8 @@ let id = 0;
 let oQuiz = {};
 let questions = [];
 let restart = {};
+let contAcert = 0;
+let qntQuestions = 0;
 
 callQuizz();
 
@@ -501,7 +503,6 @@ function alterStyle(element) {
     }    
 }
 
-let contAcert = 0;
 function saveCorrect(element) {
     const correct = element.getAttribute('id');
     console.log (correct);
@@ -511,7 +512,6 @@ function saveCorrect(element) {
     console.log(contAcert)
 }
 
-let qntQuestions = 0;
 function endGame(){
     qntQuestions++;
     console.log(qntQuestions);
@@ -542,7 +542,6 @@ function endGame(){
 
 function returnHome() {
     quizzScreen.classList.toggle('hidden');
-    mainScreen.classList.toggle('hidden');
     qntQuestions = 0;
     contAcert = 0;
     let quizz = [];
@@ -550,11 +549,11 @@ function returnHome() {
     let oQuiz = {};
     let questions = [];
     let restart = {};
+    mainScreen.classList.toggle('hidden');
+    
 }
 
 function restartQuizz() {
-    quizzScreen.classList.toggle('hidden');
-    callOneQuizz();
     qntQuestions = 0;
     contAcert = 0;
     let quizz = [];
@@ -562,10 +561,18 @@ function restartQuizz() {
     let oQuiz = {};
     let questions = [];
     let restart = {};
+    callOneQuizz();
 }
 
+let userQuizz;
 function callMyQuizz() {
-    
+    userQuizz = localStorage.getItem('listIDs');
+    console.log(userQuizz)
+    if (userQuizz !== null) {
+        console.log(userQuizz)
+        let deserializado = JSON.parse(userQuizz);
+        console.log(deserializado)
+    }    
 }
 
 function renderMyQuizz() {

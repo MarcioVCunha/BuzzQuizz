@@ -391,6 +391,10 @@ h2 {
     .conteiner-quiz {
         justify-content: space-around;
     }
+    
+    .conteiner-created{
+        flex-direction: column;
+    }
 
     .topo-created {
         width: 100%;
@@ -427,6 +431,7 @@ h2 {
     .text {
         width: 100%;
         margin-top: 13px;
+        margin-left: 0px;
     }
 
     .button-next,
